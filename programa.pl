@@ -20,5 +20,6 @@ splitHead([H|_], O) :-
 
 splitBody([H|_], O) :-
 	arg(2, H, O).
-
-
+%	Term =.. [p, O],
+%	Term =.. List,
+%	List = [_|T].
