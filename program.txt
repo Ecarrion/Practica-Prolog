@@ -1,13 +1,2 @@
-vecinoDerecho(ana, juan).
-vecinoDerecho(juan, maria).
-vecinoDerecho(maria, pepe).
-vecinoDerecho(pepe, vivi).
-
-vecinoIzquierdo(X,Y) :- vecinoDerecho(Y,X).
-
-vecindario(X,Y) :- vecindarioDerecho(X,Y).
-vecindario(X,Y) :- vecindarioDerecho(Y,X).
-
-vecindarioDerecho(X,Y) :- vecinoDerecho(X,Y).
-vecindarioDerecho(X,Y) :- vecinoDerecho(X,Z), vecindarioDerecho(Z,Y).
-
+p(X) :- z(X).
+z(a).
