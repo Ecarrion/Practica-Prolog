@@ -8,22 +8,17 @@ readfile(File,List) :-
 
 process1(In,Out):-
    read(Data),
-   (Data == end_of_file ->Out = In; process1([split(Data, L)|In],Out) ).
-
-splitSentence(In, Out) :-
-	string_to_list(In, Out).
-
-
-
-splitup(Sep,[token(B)|BL]) --> splitup(Sep,B,BL).
-splitup(Sep,[A|AL],B)      --> [A], {\+ [A] = Sep }, splitup(Sep,AL,B).
-splitup(Sep,[],[B|BL])     --> Sep, splitup(Sep,B,BL).
-splitup(_Sep,[],[])        --> [].
-
-split(In, Out) :-
-    phrase(splitup(" ",Tokens),In),
-    string_to_list(Out,In).
+   (Data == end_of_file ->Out = In;
+   splitHead([Data], H),
+   splitBody([Data], T),
+   List = [H|T],
+   process1([List|In],Out)).
 
 
+splitHead([H|_], O) :-
+	arg(1, H, O).
+
+splitBody([H|_], O) :-
+	arg(2, H, O).
 
 
