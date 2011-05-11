@@ -1,0 +1,4 @@
+regla(p(a), [ (s(a), d(a), b(a);c(a))]).
+regla(p(b), []).
+regla(p(z, v), [p(s, v), f(s, b), p(a)]).
+regla(p(x), []).
