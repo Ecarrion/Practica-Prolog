@@ -9,31 +9,52 @@ readfile(File,List) :-
 process1(In,Out):-
    read(Data),
    (Data == end_of_file ->Out = In;
+
+   firstElement([Data],Coma),
+   Coma == [(:-)] ->
+
    splitHead([Data], H),
    splitBody([Data], T),
    List = [H|T],
    organize(List, Term),
-   process1([Term|In],Out)).
+   process1([Term|In],Out)
 
+   ;
+
+   Term =.. [regla, Data],
+   process1([Term|In], Out)).
+
+
+
+firstElement([H|_], List) :-
+	H =.. Term,
+	Term = [Coma|_],
+	Coma =.. List.
 
 splitHead([H|_], O) :-
 	arg(1, H, O).
 
 splitBody([H|_], T) :-
 	arg(2, H, O),
-	O =.. List,
-	List = [_|T].
-
+	tupleToList(O, [], T).
 
 organize([H|T], Term) :-
-	Term =.. [regla, H, T].
+	reverse(T, T2),
+	Term =.. [regla, H, T2].
 
 
-tupleToList(In, [H|T]) :-
+tupleToList(In, Lista, ListaFin) :-
 	In =.. List,
+	List = [Coma|_],
+	Coma == ',' ->
+
 	List = [_|Tail],
 	Tail = [H|_],
 	Tail = [_|TupleList],
-	TupleList = [T|_].
-	%tupleToList(Tuple, [H|T]).
+	TupleList = [T|_],
+	tupleToList(T, [H|Lista], ListaFin)
+
+	;
+
+	append([In], Lista, ListaFin).
 

@@ -1,1 +1,4 @@
-b(s) :- s(a), d(g), h(w).
+p(a) :- s(a), d(a), b(a), c(a).
+p(b).
+p(z,v) :- p(s,v), f(s,b), p(a).
+p(x).
