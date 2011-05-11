@@ -24,5 +24,16 @@ splitBody([H|_], T) :-
 	O =.. List,
 	List = [_|T].
 
+
 organize([H|T], Term) :-
 	Term =.. [regla, H, T].
+
+
+tupleToList(In, [H|T]) :-
+	In =.. List,
+	List = [_|Tail],
+	Tail = [H|_],
+	Tail = [_|TupleList],
+	TupleList = [T|_].
+	%tupleToList(Tuple, [H|T]).
+
