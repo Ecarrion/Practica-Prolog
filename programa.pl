@@ -4,14 +4,15 @@ readfile(File,List) :-
           process1([],List),
           seen,             /* close File */
           see(Old),         /*  previous read source */
-          !.                /* stop now */
+	  !.                /* stop now */
+
 
 process1(In,Out):-
    read(Data),
    (Data == end_of_file ->Out = In;
 
-   firstElement([Data],Coma),
-   Coma == [(:-)] ->
+   firstElement([Data],Then),
+   Then == [(:-)] ->
 
    splitHead([Data], H),
    splitBody([Data], T),
@@ -28,8 +29,8 @@ process1(In,Out):-
 
 firstElement([H|_], List) :-
 	H =.. Term,
-	Term = [Coma|_],
-	Coma =.. List.
+	Term = [Then|_],
+	Then =.. List.
 
 splitHead([H|_], O) :-
 	arg(1, H, O).
