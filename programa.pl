@@ -12,14 +12,17 @@ process1(In,Out):-
    splitHead([Data], H),
    splitBody([Data], T),
    List = [H|T],
-   process1([List|In],Out)).
+   organize(List, Term),
+   process1([Term|In],Out)).
 
 
 splitHead([H|_], O) :-
 	arg(1, H, O).
 
-splitBody([H|_], O) :-
-	arg(2, H, O).
-%	Term =.. [p, O],
-%	Term =.. List,
-%	List = [_|T].
+splitBody([H|_], T) :-
+	arg(2, H, O),
+	O =.. List,
+	List = [_|T].
+
+organize([H|T], Term) :-
+	Term =.. [regla, H, T].
