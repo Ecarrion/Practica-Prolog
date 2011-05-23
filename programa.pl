@@ -81,3 +81,20 @@ tupleToList(In, Lista, ListaFin) :-
 	;
 
 	append([In], Lista, ListaFin).
+
+
+lhsNoVariable(Rule, Variables) :-
+	Rule =.. [_, Head, _],
+	Head =.. List,
+	containsVariables(List, [], Variables),
+	(Variables == [] -> writeln('No tiene variables en el LHS')
+	;
+	writeln('Tiene variables en el LHS')).
+
+containsVariables([], V, O) :- O = V, !.
+containsVariables(List, Variables, Out) :-
+       List = [Var|T],
+       (var(Var) ->
+       containsVariables(T,[Var|Variables], Out)
+       ;
+       containsVariables(T, Variables, Out)).

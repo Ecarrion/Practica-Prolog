@@ -1,4 +1,1 @@
-regla(p(a),[s(a),d(a),b(a),c(a)]).
-regla(p(b),[]).
-regla(p(z,v),[p(s,v),f(s,b),p(a)]).
-regla(p(x),[]).
+regla(p(_G319),[g(a),b(_G319)]).
