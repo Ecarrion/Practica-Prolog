@@ -83,13 +83,26 @@ tupleToList(In, Lista, ListaFin) :-
 	append([In], Lista, ListaFin).
 
 
-lhsNoVariable(Rule, Variables) :-
+lhsVariables(Rule, Variables) :-
 	Rule =.. [_, Head, _],
 	Head =.. List,
 	containsVariables(List, [], Variables),
 	(Variables == [] -> writeln('No tiene variables en el LHS')
 	;
 	writeln('Tiene variables en el LHS')).
+
+extraVariables(Rule, Variables) :-
+	Rule =.. [_, Head, Condition],
+	Head =.. ListH,
+	containsVariables(ListH, [], HeadVars),
+	bodyVariables(Condition, [], BodyVars),
+	mutuals(HeadVars, BodyVars, [], Variables),
+	(Variables == [] -> writeln('No hay variables extra')
+	;
+	writeln('Si Hay variables Extra')).
+
+
+
 
 containsVariables([], V, O) :- O = V, !.
 containsVariables(List, Variables, Out) :-
@@ -98,3 +111,27 @@ containsVariables(List, Variables, Out) :-
        containsVariables(T,[Var|Variables], Out)
        ;
        containsVariables(T, Variables, Out)).
+
+
+bodyVariables(Body, V, Variables) :-
+	Body == [] -> Variables = V, !;
+	Body = [Predicate|T],
+	Predicate =.. List,
+	containsVariables(List, [], Vars),
+	append(Vars, V, M),
+	bodyVariables(T, M, Variables).
+
+
+mutuals(List, AnotherList, L, Common) :-
+	List ==  [] -> Common = L, !;
+	List = [H|T],
+	(members(H, AnotherList) ->
+	mutuals(T, AnotherList, [H|L], Common);
+	mutuals(T, AnotherList, L, Common)).
+
+
+
+members(Var, List) :-
+	List = [V|T],
+	(Var == V -> !;
+	members(Var, T)).
