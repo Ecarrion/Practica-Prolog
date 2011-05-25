@@ -43,6 +43,13 @@ process2(In, Out) :-
 	    tupleToList(H3, [], Body ),
 	    organize([Head|Body],Term),
 	    write(Term),write(.),nl,
+
+	    lhsVariables(Term, Variables),       %Primera propiedad
+	    writeln(Variables),
+
+	    extraVariables(Term, Vars),		 %Segunda propiedad
+	    writeln(Vars), nl,
+
 	    process2([Term|In],Out)
 	  ;
 	   %Si es un hecho
@@ -103,7 +110,7 @@ extraVariables(Rule, Variables) :-
 
 
 
-
+%Devuelve las variables de un predicado en forma de lista
 containsVariables([], V, O) :- O = V, !.
 containsVariables(List, Variables, Out) :-
        List = [Var|T],
@@ -113,6 +120,7 @@ containsVariables(List, Variables, Out) :-
        containsVariables(T, Variables, Out)).
 
 
+%Devuelve las variables de una serie de predicados en forma de lista
 bodyVariables(Body, V, Variables) :-
 	Body == [] -> Variables = V, !;
 	Body = [Predicate|T],
@@ -122,6 +130,7 @@ bodyVariables(Body, V, Variables) :-
 	bodyVariables(T, M, Variables).
 
 
+	%Entrega los elementos de una lista que se encuentran en otra
 mutuals(List, AnotherList, L, Common) :-
 	List ==  [] -> Common = L, !;
 	List = [H|T],
@@ -130,7 +139,7 @@ mutuals(List, AnotherList, L, Common) :-
 	mutuals(T, AnotherList, L, Common)).
 
 
-
+%Verifica si una variable pertenese a una lista
 members(Var, List) :-
 	List = [V|T],
 	(Var == V -> !;

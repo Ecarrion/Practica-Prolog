@@ -1,2 +1,13 @@
-regla(p(_G4848),[g(a),b(_G4848)]).
-regla(p(_G4917,_G4918,_G4919),[g(a),p(b),h(_G4917,_G4919)]).
+regla(p(_G32072), [g(a), b(_G32072)]).
+Tiene variables en el LHS
+[_G32072]
+Si Hay variables Extra
+[_G32072]
+
+regla(p(_G32198, _G32199, _G32200), [g(a), p(b), h(_G32198, _G32200)]).
+Tiene variables en el LHS
+[_G32200, _G32199, _G32198]
+Si Hay variables Extra
+[_G32198, _G32200]
+
+regla(p(a), []).

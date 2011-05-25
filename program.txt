@@ -1,2 +1,3 @@
 p(X) :- g(a), b(X).
 p(X,Y,Z) :- g(a), p(b), h(X,Z).
+p(a).
