@@ -10,26 +10,6 @@ main(FileR, FileW,List) :-
       tell(OldT),
           !.                /* stop now */
 
-
-readfile(File, List) :-
-          seeing(Old),      /* save for later */
-          see(File),        /* open this file */
-          %process1([],List),
-	  process2([], List),
-          seen,             /* close File */
-          see(Old),         /*  previous read source */
-          !.                /* stop now */
-
-writefile(File) :-
-	telling(Old),
-	tell(File),
-	repeat,
-	read(Data),
-	process(Data),
-	told,
-	tell(Old),
-	!.
-
 process2(In, Out) :-
 	read(Data),
 	(Data == end_of_file -> Out = In
@@ -55,6 +35,13 @@ process2(In, Out) :-
 	   %Si es un hecho
 	   organize([Data|[]],Term),
 	   write(Term),write(.),nl,
+
+	   lhsVariables(Term, Variables),       %Primera propiedad
+	    writeln(Variables),
+
+	    extraVariables(Term, Vars),		 %Segunda propiedad
+	    writeln(Vars), nl,
+
 	   process2([Term|In],Out)
 	  )
 	)
